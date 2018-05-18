@@ -1,38 +1,54 @@
-<div class="jumbotron">
-  <h1 class="display-3">Bienvenido a meteoAPP</h1>
+
+<!--Vista para seleccionar ciudad-->
+<div class="jumbotron" *ngIf = "!bool">
+  <h1 class="display-3" align="center">Bienvenido a meteo<span class="text-danger">APP</span></h1>
   <p class="lead"></p>
   <hr class="my-4">
-  <p>Bienvenido a la aplicación meteorológica que te permite consultar las predicciones de los próximos días del municipio que desee. Tan sólo seleccione la provincia y municipio deseado y meteoAPP le dará la información siempre actualizada.</p>
-
-<form>
+  <p>Bienvenido a la aplicación meteorológica que te permite consultar las predicciones de los próximos días la ciudad o municipio que desee. Tan sólo escriba su ciudad y meteoAPP le dará la información siempre actualizada.</p>
+<form (ngSubmit)="buscar()" #formMuni="ngForm">
   <fieldset>
-    <legend>Consultar predicciones</legend>
+    <legend>Consultar predicciones para los próximos días ahora:</legend>
     <div class="form-group">
-      <label for="provincia">Seleccione provincia</label>
-      <select class="form-control" id="provincia">
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-      </select>
+     Escriba el municipio del que quiere obtener la información: <br> <input type="text" 
+     			placeholder="ciudad/municipio"
+     			class="form-control"
+                id="municipio"
+                name="municipio" 
+                ngModel
+                required
+                #municipio="ngModel"> 
     </div>
+    </fieldset> 
+    <input type="submit" class="btn btn-primary btn-lg" value="Buscar">
+</form> 
+</div>
 
-    <div class="form-group">
-      <label for="municipio">Seleccione municipio</label>
-      <select class="form-control" id="municipio">
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-      </select>
-    </div>
 
-    </fieldset>
-</form>
+<!--Vista para visualizar resultados-->
+<div class="jumbotron" *ngIf = "bool">
+  <h2>Resultado para los próximos diez días en <span class="text-danger">{{municipio}}</span></h2>
+  <p class="lead"></p>
+  <hr class="my-4">
+  <p>Estos son los datos solicitados:</p>
 
-  <p class="lead">
-    <a class="btn btn-primary btn-lg" href="#" role="button">Consultar</a>
-  </p>
+<table class="table table-hover">
+  <thead>
+    <tr class="table-dark">
+      <th scope="col">Día de la semana</th>
+      <th scope="col">Tiempo</th>
+      <th scope="col">Temperatura Máxima</th>
+      <th scope="col">Temperatura Mínima</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="table-active" *ngFor="let re of res">
+      <td scope="row">{{dia[re.day]}}</td>
+      <td scope="row"><img src= {{tiempo[re.text]}} height="40" width="40"></td>
+      <td>{{((re.high-32)/1.8).toFixed()}}</td>
+      <td>{{((re.low-32)/1.8).toFixed()}}</td>
+    </tr>
+  </tbody>
+</table> 
+<button class="btn btn-primary" (click)="volver()">Volver</button>
+
 </div>

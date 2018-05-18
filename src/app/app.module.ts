@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -9,7 +10,6 @@ import { HomeComponent } from './componentes/home/home.component';
 import { NavbarComponent } from './componentes/navbar/navbar.component';
 
 import { DatosMetService } from './servicios/datos-met.service';
-import { ResultadoComponent } from './componentes/resultado/resultado.component';
 
 
 @NgModule({
@@ -17,12 +17,12 @@ import { ResultadoComponent } from './componentes/resultado/resultado.component'
     AppComponent,
     HomeComponent,
     NavbarComponent,
-    ResultadoComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpModule
+    HttpModule,
+    FormsModule
   ],
   providers: [
     DatosMetService
