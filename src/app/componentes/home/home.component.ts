@@ -2,6 +2,10 @@ import { Component, OnInit, ViewChild} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { DatosMetService } from '../../servicios/datos-met.service'
 
+//Buscar imágenes uniformes
+//mirar los códigos https://developer.yahoo.com/weather/documentation.html#codes
+//Errores al meter el nombre 
+//componente notFound
 
 @Component({
   selector: 'app-home',
