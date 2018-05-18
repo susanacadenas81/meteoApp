@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DatosMetService } from '../../servicios/datos-met.service'
 
 @Component({
   selector: 'app-navbar',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  constructor( private datosServ : DatosMetService ) { }
 
   ngOnInit() {
   }
-
+datos(){
+	console.log("Hola");
+	this.datosServ.getTemp("Villanueva de la Cañada").subscribe(x=>console.log(x.query.results.channel));//.item.forecast[0].high));
+}
 }
