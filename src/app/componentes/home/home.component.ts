@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild} from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { DatosMetService } from '../../servicios/datos-met.service'
+import { DatosMetService } from '../../servicios/datos-met.service';
+import { FlashMessagesService } from 'angular2-flash-messages';
 
 //Buscar imágenes uniformes
+//Subir imagenes a firebase
+//Asociar imagenes con archivos 
 //mirar los códigos https://developer.yahoo.com/weather/documentation.html#codes
-//Errores al meter el nombre 
 //componente notFound
 
 @Component({
@@ -20,8 +22,9 @@ export class HomeComponent implements OnInit {
   bool :Boolean
   dia : Array<any>
   tiempo : Array<any>
+  lugar : String
 
-  constructor(private datosServ : DatosMetService) { 
+  constructor(private datosServ : DatosMetService,private flashMensaje:FlashMessagesService) { 
   	this.res = [];
   }
 
@@ -32,7 +35,7 @@ export class HomeComponent implements OnInit {
   	this.bool = false;
   	//Traducción del día de la semana
   	this.dia = new Array();
-  	this.dia["Mon"]="Lunes";
+  	this.dia["Mon"]="Lunes ";
   	this.dia["Tue"]="Martes";
   	this.dia["Wed"]="Miércoles";
   	this.dia["Thu"]="Jueves";
@@ -49,22 +52,30 @@ export class HomeComponent implements OnInit {
   	this.tiempo['Mostly Cloudy'] = "http://www.dailyfreepsd.com/wp-content/uploads/2013/06/Cloudy-Overcast-weather-icon-vector.png";
   	this.tiempo['Cloudy'] = "http://www.dailyfreepsd.com/wp-content/uploads/2013/06/Cloudy-Overcast-weather-icon-vector.png";
   	this.tiempo['Mostly Sunny'] = "https://cdn1.iconfinder.com/data/icons/weather-elements/512/Weather_SunAbstract.png";
-  	this.tiempo['Sunny'] = "https://cdn1.iconfinder.com/data/icons/weather-elements/512/Weather_SunAbstract.png";
+  	this.tiempo['Sunny'] = "https://firebasestorage.googleapis.com/v0/b/meteoapp-a396f.appspot.com/o/sol.png?alt=media&token=4f3a4bc6-91bf-49cd-b87e-ead06304d28f";
   	this.tiempo['Rain'] = "https://pics.clipartpng.com/midle/Partly_Cloudy_with_Sun_and_Rain_Weather_Icon_PNG_Clip_Art-1502.png";
   }
 
   buscar(){
   	this.municipio = this.formMuni.value.municipio;
-  	this.bool = true;
-  	this.datosServ.getTemp(this.municipio).subscribe(
-  		x=> {this.res = x.query.results.channel.item.forecast;
-  	 		this.bool = true;
-  	 		console.log(this.res);
 
+  	this.datosServ.getTemp(this.municipio).subscribe(
+  		x=> {
+           if(x.query.results != null && x.query.results.channel.item != null){
+           this.res = x.query.results.channel.item.forecast;
+  	 		   this.bool = true;
+            console.log(this.res);
+           this.lugar = x.query.results.channel.location.city;
+            }
+           else {
+             this.flashMensaje.show('ERROR : Ciudad no encontrada',{cssClass:'alert-danger',timeout:3000});
+             this.formMuni.reset();
+              }
   	 	});
   }
 
   volver(){
+    this.res = [];
   	this.bool = false;
   }
 

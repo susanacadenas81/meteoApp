@@ -1,15 +1,20 @@
-
+<div class="container">
 <!--Vista para seleccionar ciudad-->
 <div class="jumbotron" *ngIf = "!bool">
-  <h1 class="display-3" align="center">Bienvenido a meteo<span class="text-danger">APP</span></h1>
+  <h1 class="display-3" align="center">Bienvenido a Meteo<span class="text-danger">APP</span></h1>
   <p class="lead"></p>
   <hr class="my-4">
   <p>Bienvenido a la aplicación meteorológica que te permite consultar las predicciones de los próximos días la ciudad o municipio que desee. Tan sólo escriba su ciudad y meteoAPP le dará la información siempre actualizada.</p>
 <form (ngSubmit)="buscar()" #formMuni="ngForm">
+
   <fieldset>
     <legend>Consultar predicciones para los próximos días ahora:</legend>
     <div class="form-group">
-     Escriba el municipio del que quiere obtener la información: <br> <input type="text" 
+     Escriba el municipio del que quiere obtener la información:<br> 
+           <i class="fa fa-exclamation-circle uncheck"
+               *ngIf="municipio.invalid && municipio.touched"></i>
+
+      <input type="text" 
      			placeholder="ciudad/municipio"
      			class="form-control"
                 id="municipio"
@@ -17,19 +22,61 @@
                 ngModel
                 required
                 #municipio="ngModel"> 
+       <p class="alert alert-danger" *ngIf="municipio.invalid && municipio.touched">
+            La ciudad o municipio es obligatorio.
+          </p>
     </div>
     </fieldset> 
-    <input type="submit" class="btn btn-primary btn-lg" value="Buscar">
+
+    <flash-messages></flash-messages>
+
+    <input type="submit" 
+    class="btn btn-primary btn-lg" 
+    value="Buscar"
+    [disabled]="!formMuni.valid"
+    >
 </form> 
 </div>
 
 
 <!--Vista para visualizar resultados-->
 <div class="jumbotron" *ngIf = "bool">
-  <h2>Resultado para los próximos diez días en <span class="text-danger">{{municipio}}</span></h2>
+  <div class="container">
+  <h2>Resultado para los próximos diez días en <span class="text-danger">{{lugar}}</span></h2>
   <p class="lead"></p>
   <hr class="my-4">
   <p>Estos son los datos solicitados:</p>
+ 
+
+<!--<table class="table table-hover">
+  <thead>
+    <tr class="table-dark">
+      <th scope="col">Día de la semana</th>
+      <th scope="col">Tiempo</th>
+      <th scope="col">Temperatura Máxima</th>
+      <th scope="col">Temperatura Mínima</th>
+    </tr>
+  </thead>
+ <tbody>
+    <tr class="table-active" *ngFor="let re of res">
+      <td scope="row">{{dia[re.day]}}</td>
+      <td scope="row"><img src= {{tiempo[re.text]}} height="40" width="40"></td>
+      <td>{{((re.high-32)/1.8).toFixed()}}</td>
+      <td>{{((re.low-32)/1.8).toFixed()}}</td>
+    </tr>
+  </tbody>
+</table> -->
+<div class="card" id="tarjeta" *ngFor="let re of res">
+  <h3 class="card-header">{{dia[re.day]}}</h3>
+  <div class="card-body">
+    <h5 class="card-title">{{re.date}}</h5>
+  </div>
+  <img style="height: 200px; width: 100%; display: block;" src={{tiempo[re.text]}} alt="{{re.text}}">
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Temperatura máxima {{((re.high-32)/1.8).toFixed()}} grados</li>
+    <li class="list-group-item">Temperatura mínima {{((re.low-32)/1.8).toFixed()}} grados</li>
+  </ul>
+</div>
 
 <table class="table table-hover">
   <thead>
@@ -40,7 +87,7 @@
       <th scope="col">Temperatura Mínima</th>
     </tr>
   </thead>
-  <tbody>
+ <tbody>
     <tr class="table-active" *ngFor="let re of res">
       <td scope="row">{{dia[re.day]}}</td>
       <td scope="row"><img src= {{tiempo[re.text]}} height="40" width="40"></td>
@@ -48,7 +95,8 @@
       <td>{{((re.low-32)/1.8).toFixed()}}</td>
     </tr>
   </tbody>
-</table> 
-<button class="btn btn-primary btn-lg" (click)="volver()">Volver</button>
+</table>
+
+</div>
 
 </div>

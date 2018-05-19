@@ -10,6 +10,8 @@ import { HomeComponent } from './componentes/home/home.component';
 import { NavbarComponent } from './componentes/navbar/navbar.component';
 
 import { DatosMetService } from './servicios/datos-met.service';
+import { FlashMessagesModule } from 'angular2-flash-messages';
+import { FlashMessagesService } from 'angular2-flash-messages';
 
 
 @NgModule({
@@ -22,10 +24,12 @@ import { DatosMetService } from './servicios/datos-met.service';
     BrowserModule,
     AppRoutingModule,
     HttpModule,
-    FormsModule
+    FormsModule,
+    FlashMessagesModule
   ],
   providers: [
-    DatosMetService
+    DatosMetService,
+    FlashMessagesService
   ],
   bootstrap: [AppComponent]
 })
