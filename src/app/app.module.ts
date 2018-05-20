@@ -12,6 +12,7 @@ import { NavbarComponent } from './componentes/navbar/navbar.component';
 import { DatosMetService } from './servicios/datos-met.service';
 import { FlashMessagesModule } from 'angular2-flash-messages';
 import { FlashMessagesService } from 'angular2-flash-messages';
+import { NotFoundComponent } from './componentes/not-found/not-found.component';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { FlashMessagesService } from 'angular2-flash-messages';
     AppComponent,
     HomeComponent,
     NavbarComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
